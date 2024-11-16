@@ -1,3 +1,5 @@
+package todoManager;
+
 public class Task {
     private String title;
     private boolean isCompleted;
