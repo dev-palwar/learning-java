@@ -1,9 +1,9 @@
+import models.Task;
+import services.Utils;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 public class Main {
     public static void main(String[] args) {
@@ -30,27 +30,7 @@ public class Main {
         Task reminder = new Task(title, reminderTime);
         System.out.println("Reminder set for: " + reminder.getTime());
 
-        reminderService(reminder);
+        Utils.reminderService(reminder);
         scanner.close();
-
     }
-
-    static void reminderService(Task reminder) {
-        System.out.println("Current time: " + LocalDateTime.now());
-        System.out.println("Reminder time: " + reminder.getTime());
-
-        // Calculate the delay in seconds
-        long delayInSeconds = java.time.Duration.between(LocalDateTime.now(), reminder.getTime()).getSeconds();
-
-        if (delayInSeconds > 0) {
-            ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-            scheduler.schedule(() -> {
-                System.out.println("Reminder: " + reminder.getTitle());
-                scheduler.shutdown();
-            }, delayInSeconds, TimeUnit.SECONDS);
-        } else {
-            System.out.println("The specified time has already passed!");
-        }
-    }
-
 }
